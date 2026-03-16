@@ -12,7 +12,7 @@ In addition to the right choices of secure encryption, signing or hash algorithm
 
 ## Test Objectives
 
-- Provide a guideline for the identification weak encryption, signature algorithms or hashing uses and implementations.
+- Provide a guideline for the identification of weak encryption, signature algorithms or hashing uses and implementations.
 
 ## How to Test
 
