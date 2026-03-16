@@ -16,6 +16,14 @@ In addition to the right choices of secure encryption, signing or hash algorithm
 
 ## How to Test
 
+### Introduction and testing methodology
+
+Testing for weak cryptographic primitives is generally not feasible when doing a black-box test. Ideally, a cryptographic implementation does not leak any information about the used algorithm and produces pseudo-random byte sequences which makes reversing the used primitives a task for cryptanalysis. Because of this the following tests will assume access to the source code of the application. 
+
+It is important to note that using established crypto-libraries such as [OpenSSL](https://openssl-library.org/) in a project is not a guarantee for safe usage of cryptography. The implementation in any given app may still leak information through attack vectors such as side-channels which can compromise the apps cryptographic implementations despite following the standards given in this document. 
+
+For example, an attacker might be able to use a flaw in the way a buffer is being handled in the application to extract a cryptographic key from your app. Cryptography needs to always be understood as an additional layer of protection for your application. Your application should still be constructed in such a way that it remains mostly safe even if cryptographic primitives might fail.
+
 ### Basic Security Checklist
 
 - When using AES128 or AES256, the IV (Initialization Vector) must be random and unpredictable. Refer to [FIPS 140-2, Security Requirements for Cryptographic Modules](https://csrc.nist.gov/publications/detail/fips/140/2/final), section 4.9.1. random number generator tests. For example, in Java, `java.util.Random` is considered a weak random number generator. `java.security.SecureRandom` should be used instead of `java.util.Random`.
