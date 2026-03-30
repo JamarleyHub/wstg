@@ -16,13 +16,27 @@ In addition to the right choices of secure encryption, signing or hash algorithm
 
 ## How to Test
 
-### Introduction and testing methodology
+### Introduction and Testing Methodology
 
-Testing for weak cryptographic primitives is generally not feasible when doing a black-box test. Ideally, a cryptographic implementation does not leak any information about the used algorithm and produces pseudo-random byte sequences which makes reversing the used primitives a task for cryptanalysis. Because of this the following tests will assume access to the source code of the application. 
+Testing for weak cryptographic primitives is generally not feasible when doing a black-box test. Ideally, a cryptographic implementation does not leak any information about the used algorithm and produces pseudo-random byte sequences which makes reversing the used primitives a task for cryptanalysis. If a cipher leaks information to the point where the used cipher can be detected in a black-box test, the cipher is considered broken to begin with. Because of this the following tests will assume access to the source code of the application. 
 
-It is important to note that using established crypto-libraries such as [OpenSSL](https://openssl-library.org/) in a project is not a guarantee for safe usage of cryptography. The implementation in any given app may still leak information through attack vectors such as side-channels which can compromise the apps cryptographic implementations despite following the standards given in this document. 
+It is important to note that using established crypto-libraries such as [OpenSSL](https://openssl-library.org/) in a project is not a guarantee for safe usage of cryptography. Implementing a custom cipher is always considered bad practice and unsafe, even if implemented by an expert in the field. Only established, publicly available and well-tested ciphers should be used in production code.
 
-For example, an attacker might be able to use a flaw in the way a buffer is being handled in the application to extract a cryptographic key from your app. Cryptography needs to always be understood as an additional layer of protection for your application. Your application should still be constructed in such a way that it remains mostly safe even if cryptographic primitives might fail.
+Cryptography needs to always be understood as an additional layer of protection for your application. Your application should still be constructed in such a way that it remains mostly safe even if cryptographic primitives might fail. It is possible that the implementation of a cryptographic primitive in any given app may still leak information through attack vectors such as side-channels which can compromise the apps cryptographic implementations despite following the standards given in this document. For example, an attacker might be able to use a flaw in the way a buffer is being handled in the application to extract a cryptographic key from your app.
+
+Providing a complete guideline for every common cryptographic primitive is beyond the scope of this document. Proper parametrization for any algorithm depends on the expected use-case and expert recommendations. Established cryptographic standards such as the ones published by NIST in der [FIPS standard publications](https://csrc.nist.gov/publications/fips) should be consulted before use.
+
+### Symmetric Encryption Checklist
+
+The general guidelines in this section should be applied if symmetric encryption algorithms such as AES are used. AES should generally be prefered for symmetric encryption, as other Ciphers such as 3DES or Blowfish are officially deprecated for Post-Quantum usage by [NIST](https://csrc.nist.gov/pubs/ir/8547/ipd). Further information on AES can be found in [FIPS-197](https://csrc.nist.gov/pubs/fips/197/final).
+
+- AES-128 should be used at minimum for non-critical data with AES-256 being recommended for sensitive data.
+- The IV (Initialization Vector) must be random. Refer to [FIPS 140-2, Security Requirements for Cryptographic Modules](https://csrc.nist.gov/publications/detail/fips/140/2/final), section 4.9.1. random number generator tests. For example, in Java, `java.util.Random` is considered a weak random number generator. `java.security.SecureRandom` should be used instead.
+- GCM (Galois Counter Mode) is prefered for new implementations while CBC (Cipher Block Chaining) can still be used safely in legacy contexts, if implemented correctly. CTR (Counter Mode) is also still a viable alternative, if random access to encrypted data is required. ECB should be avoided as it leaks information about encrypted data.
+
+### Asymmetric Encryption Checklist
+
+### Hashing and Key Derivation Checklist
 
 ### Basic Security Checklist
 
