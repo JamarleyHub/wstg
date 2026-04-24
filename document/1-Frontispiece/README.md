@@ -28,6 +28,7 @@ This document is released under the [Creative Commons 4.0 License](https://creat
 
 - Aaron Williams
 - Alessia Michela Di Campi
+- Alexander Bas
 - Elie Saad
 - Felix Sieges
 - Himasree Kolathur
@@ -40,6 +41,7 @@ This document is released under the [Creative Commons 4.0 License](https://creat
 - Manh Pham Tien
 - Mark Clayton
 - Meysam Bal-afkan
+- Mohamed Bassia (0xBassia)
 - Omar Jezi
 - Or Asaf
 - Phu Nguyen (Tony)
